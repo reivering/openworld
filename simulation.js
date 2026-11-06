@@ -41,7 +41,7 @@ function expandWorld(world) {
     world.mountains = mountains;
     world.river = river;
     for (const item of [...world.agents, ...world.trees, ...world.animals, ...world.structures]) clearTerrain(item);
-    for (const lake of world.water) clearTerrain(lake, lake.radius);
+    for (const lake of world.water) { clearTerrain(lake, lake.radius); while (world.agents.some(agent => near(agent,lake)<lake.radius+3)) Object.assign(lake,outerPosition(lake.radius)); }
     world.terrainVersion = 4;
   }
   if (!world.ecologyVersion) {

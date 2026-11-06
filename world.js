@@ -7,7 +7,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#c7dfc4'); scene.fog = new THREE.Fog('#c7dfc4', 600, 1000);
-const camera = new THREE.PerspectiveCamera(45, 1, .1, 1200); camera.position.set(375, 335, 375);
+const camera = new THREE.PerspectiveCamera(45, 1, .1, 1200); camera.position.set(320, 280, 320);
 const controls = new OrbitControls(camera, canvas); controls.enableDamping = true; controls.maxPolarAngle = Math.PI/2.15; controls.minDistance = 10; controls.maxDistance = 900; controls.target.set(0,0,0);
 controls.mouseButtons = {LEFT:THREE.MOUSE.PAN,MIDDLE:THREE.MOUSE.DOLLY,RIGHT:THREE.MOUSE.ROTATE};
 controls.touches = {ONE:THREE.TOUCH.PAN,TWO:THREE.TOUCH.DOLLY_ROTATE};
@@ -65,7 +65,7 @@ function setWorld(w) {
   if (followId) {
     const agent=w.agents.find(a=>a.id===followId);
     if (agent) { const shift=new THREE.Vector3(agent.x,2,agent.z).sub(controls.target);camera.position.add(shift);controls.target.add(shift); }
-    else followId=null;
+    else { followId=null; $('view-life').textContent='View life'; }
   }
   dynamic.traverse(object => { if (object.isInstancedMesh) object.dispose(); if (object.userData.terrain) object.geometry.dispose(); });
   scene.remove(dynamic); dynamic = new THREE.Group(); scene.add(dynamic);
@@ -98,17 +98,20 @@ function setWorld(w) {
     for (const dx of [-.78,.78]) part(armGeo,agentMats[i%4],a.x+dx,2.1,a.z);
     part(agentHeadGeo,skin,a.x,3.3,a.z); part(hairGeo,hair,a.x,3.3,a.z);
   }
-  $('day').textContent=`DAY ${String(w.day).padStart(3,'0')}`; $('elapsed').textContent=`${w.startedAt ? Math.floor((Date.now()-Date.parse(w.startedAt))/60000) : 0}M ELAPSED`; $('population').textContent=String(w.agents.length).padStart(2,'0'); $('shelters').textContent=String(w.structures.filter(s => s.type==='shelter').length).padStart(2,'0'); $('generation').textContent=String(w.knowledge.length).padStart(2,'0');
+  $('day').textContent=`DAY ${String(w.day).padStart(3,'0')}`; $('elapsed').textContent=`${w.startedAt ? Math.floor((Date.now()-Date.parse(w.startedAt))/60000) : 0}M ELAPSED`; $('weather').textContent=({clear:'CLEAR SKIES',rain:'RAIN',cold:'COLD'}[w.weather]||'CLEAR SKIES'); $('population').textContent=String(w.agents.length).padStart(2,'0'); $('shelters').textContent=String(w.structures.filter(s => s.type==='shelter').length).padStart(2,'0'); $('generation').textContent=String(w.knowledge.length).padStart(2,'0'); document.querySelector('.resident-count').textContent=`${w.agents.length} LIVES`;
   $('events').replaceChildren(...w.events.slice(0,5).map(e=>{const row=document.createElement('div');row.className='event';const dot=document.createElement('i'), text=document.createElement('div'), stamp=document.createElement('small');text.textContent=e.text;stamp.textContent=`DAY ${String(e.day).padStart(3,'0')} · ${Math.floor((e.elapsedSeconds||0)/60)}M REAL TIME`;text.append(stamp);row.append(dot,text);return row;}));
   $('round-status').textContent=w.error ? `ERROR: ${w.error}` : w.busy ? 'AGENTS ARE DECIDING…' : w.running ? `ROUND COMPLETE · ${w.lastRoundSeconds||0}S` : w.day===1 ? 'READY FOR FIRST ROUND' : `PAUSED · ${w.knowledge.join(', ')||'NO DISCOVERIES YET'}`;
-  $('toggle').innerHTML=w.running?'Ⅱ <span>Pause agents</span>':'▶ <span>Start agents</span>';
-  $('status').textContent=w.running?'AGENTS ARE RUNNING':'WORLD IS PAUSED';
+  $('toggle').textContent=w.running?'Pause agents':'Start agents';
+  $('status').textContent=w.running?'WORLD IS RUNNING':'WORLD IS PAUSED';
+  document.querySelector('.live-status').classList.toggle('is-running',w.running);
+  document.querySelector('.map-label').classList.toggle('is-running',w.running);
+  $('map-view-label').textContent=w.running?'LIVE WORLD VIEW':'PAUSED WORLD VIEW';
   renderResidents(w);
 }
 let world=null,followId=null,selectedId=null,residentSide='all';
 function selectAgent(agent,follow=false){
   selectedId=agent.id;
-  if(follow){followId=agent.id;camera.position.set(agent.x+17,14,agent.z+17);controls.target.set(agent.x,2,agent.z);controls.update();$('view-life').innerHTML='↗ <span>Whole world</span>';}
+  if(follow){followId=agent.id;camera.position.set(agent.x+17,14,agent.z+17);controls.target.set(agent.x,2,agent.z);controls.update();$('view-life').textContent='Whole world';}
   const strong=document.createElement('strong'),small=document.createElement('small');
   strong.textContent=`${agent.name} · generation ${agent.generation}`;
   small.textContent=`Health ${agent.health} · Energy ${agent.energy} · Water ${agent.thirst} · Hunger ${agent.hunger} · Warmth ${agent.warmth}. ${agent.action}. ${agent.lastThought||'No decisions yet.'}`;
@@ -117,20 +120,22 @@ function selectAgent(agent,follow=false){
 }
 function renderResidents(w){
   const agents=w.agents.filter(a=>residentSide==='all'||(a.x<0?'west':'east')===residentSide);
-  $('agent-list').replaceChildren(...agents.map((agent,i)=>{
+  const list=$('agent-list'),scroll=list.scrollTop;
+  list.replaceChildren(...agents.map((agent,i)=>{
     const button=document.createElement('button'),avatar=document.createElement('span'),text=document.createElement('span'),name=document.createElement('strong'),activity=document.createElement('small'),side=document.createElement('em');
     button.type='button';button.className='resident';button.dataset.id=agent.id;button.classList.toggle('selected',agent.id===selectedId);button.setAttribute('aria-label',`Follow ${agent.name}`);
-    avatar.className='resident-avatar';avatar.style.setProperty('--avatar-hue',String((i*47+agent.name.length*23)%360));
+    avatar.className='resident-avatar';avatar.textContent=agent.name[0];avatar.style.setProperty('--avatar-hue',String((i*47+agent.name.length*23)%360));
     name.textContent=agent.name;activity.textContent=agent.action||'Standing around';text.append(name,activity);
     side.textContent=agent.x<0?'West':'East';side.className=agent.x<0?'west':'east';button.append(avatar,text,side);
     button.onclick=()=>{selectAgent(agent,true);renderResidents(world);};return button;
   }));
-  if(!agents.length)$('agent-list').textContent='No agents on this side yet.';
-  const selected=w.agents.find(a=>a.id===selectedId);if(selected)selectAgent(selected);
+  list.scrollTop=scroll;
+  if(!agents.length)list.textContent='No agents on this side yet.';
+  const selected=w.agents.find(a=>a.id===selectedId);if(selected)selectAgent(selected);else if(selectedId){selectedId=null;$('agent-inspect').textContent='That resident is no longer in the world.';}
 }
 async function request(url){const res=await fetch(url,{method:url==='/api/state'?'GET':'POST'});const data=await res.json();if(!res.ok)throw new Error(data.error||'Request failed');return data;}
 async function refresh(){try{const next=await request('/api/state');if(!world||world.day!==next.day||world.id!==next.id||world.running!==next.running||world.busy!==next.busy||world.error!==next.error){world=next;setWorld(world);}else world=next;}catch(err){$('round-status').textContent=err.message;}}
-$('view-life').onclick=()=>{const a=world?.agents[0];if (!a) return;if(followId){followId=null;camera.position.set(375,335,375);controls.target.set(0,0,0);controls.update();$('view-life').innerHTML='⌕ <span>View life</span>';}else selectAgent(a,true);};
+$('view-life').onclick=()=>{const a=world?.agents[0];if (!a) return;if(followId){followId=null;camera.position.set(320,280,320);controls.target.set(0,0,0);controls.update();$('view-life').textContent='View life';}else selectAgent(a,true);};
 $('toggle').onclick=async()=>{try{world=await request(world?.running?'/api/pause':'/api/start');setWorld(world);}catch(err){$('round-status').textContent=err.message;}};
 $('reset').onclick=async()=>{if(!confirm('Start a new world? The current world will be erased.'))return;try{world=await request('/api/reset');setWorld(world);}catch(err){$('round-status').textContent=err.message;}};
 const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
@@ -141,7 +146,6 @@ function showHelp(){document.querySelector('[data-help="'+(matchMedia('(pointer:
 $('show-controls').onclick=showHelp;
 $('start-exploring').onclick=()=>{dialog.close();try{localStorage.setItem('world-controls-seen','1');}catch{}};
 document.querySelectorAll('.help-tabs button').forEach(button=>button.onclick=()=>{document.querySelectorAll('.help-tabs button').forEach(item=>item.classList.toggle('active',item===button));$('computer-help').hidden=button.dataset.help!=='computer';$('phone-help').hidden=button.dataset.help!=='phone';});
-try{if(!localStorage.getItem('world-controls-seen'))showHelp();}catch{showHelp();}
 const keys=new Set(),yAxis=new THREE.Vector3(0,1,0),move=new THREE.Vector3(),forward=new THREE.Vector3();
 window.addEventListener('keydown',event=>{if(event.key==='?'&&!dialog.open){event.preventDefault();showHelp();return;}if(dialog.open||/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName))return;const key=event.key.toLowerCase();if('wasdqetgrf'.includes(key)||key.startsWith('arrow')){keys.add(key);event.preventDefault();}if(event.key==='Shift')keys.add('shift');});
 window.addEventListener('keyup',event=>keys.delete(event.key.toLowerCase()));window.addEventListener('blur',()=>keys.clear());

@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T13:42:34Z",
+  "title": "Design System: Little World",
+  "extensions": {
+    "colorMeta": {
+      "forest-floor": {
+        "role": "neutral",
+        "displayName": "Forest Floor",
+        "canonical": "oklch(20% .025 166)",
+        "tonalRamp": [
+          "oklch(15% 0.025 166)",
+          "oklch(25% 0.025 166)",
+          "oklch(35% 0.025 166)",
+          "oklch(45% 0.025 166)",
+          "oklch(60% 0.025 166)",
+          "oklch(75% 0.025 166)",
+          "oklch(85% 0.025 166)",
+          "oklch(95% 0.025 166)"
+        ]
+      },
+      "forest-panel": {
+        "role": "neutral",
+        "displayName": "Forest Panel",
+        "canonical": "oklch(24% .026 166)",
+        "tonalRamp": [
+          "oklch(15% 0.026 166)",
+          "oklch(25% 0.026 166)",
+          "oklch(35% 0.026 166)",
+          "oklch(45% 0.026 166)",
+          "oklch(60% 0.026 166)",
+          "oklch(75% 0.026 166)",
+          "oklch(85% 0.026 166)",
+          "oklch(95% 0.026 166)"
+        ]
+      },
+      "raised-canopy": {
+        "role": "neutral",
+        "displayName": "Raised Canopy",
+        "canonical": "oklch(28% .027 166)",
+        "tonalRamp": [
+          "oklch(15% 0.027 166)",
+          "oklch(25% 0.027 166)",
+          "oklch(35% 0.027 166)",
+          "oklch(45% 0.027 166)",
+          "oklch(60% 0.027 166)",
+          "oklch(75% 0.027 166)",
+          "oklch(85% 0.027 166)",
+          "oklch(95% 0.027 166)"
+        ]
+      },
+      "limestone-ink": {
+        "role": "neutral",
+        "displayName": "Limestone Ink",
+        "canonical": "oklch(94% .012 91)",
+        "tonalRamp": [
+          "oklch(15% 0.012 91)",
+          "oklch(25% 0.012 91)",
+          "oklch(35% 0.012 91)",
+          "oklch(45% 0.012 91)",
+          "oklch(60% 0.012 91)",
+          "oklch(75% 0.012 91)",
+          "oklch(85% 0.012 91)",
+          "oklch(95% 0.012 91)"
+        ]
+      },
+      "sage-muted": {
+        "role": "neutral",
+        "displayName": "Sage Muted",
+        "canonical": "oklch(75% .023 158)",
+        "tonalRamp": [
+          "oklch(15% 0.023 158)",
+          "oklch(25% 0.023 158)",
+          "oklch(35% 0.023 158)",
+          "oklch(45% 0.023 158)",
+          "oklch(60% 0.023 158)",
+          "oklch(75% 0.023 158)",
+          "oklch(85% 0.023 158)",
+          "oklch(95% 0.023 158)"
+        ]
+      },
+      "contour-line": {
+        "role": "neutral",
+        "displayName": "Contour Line",
+        "canonical": "oklch(39% .026 164)",
+        "tonalRamp": [
+          "oklch(15% 0.026 164)",
+          "oklch(25% 0.026 164)",
+          "oklch(35% 0.026 164)",
+          "oklch(45% 0.026 164)",
+          "oklch(60% 0.026 164)",
+          "oklch(75% 0.026 164)",
+          "oklch(85% 0.026 164)",
+          "oklch(95% 0.026 164)"
+        ]
+      },
+      "signal-lime": {
+        "role": "primary",
+        "displayName": "Signal Lime",
+        "canonical": "oklch(86% .17 126)",
+        "tonalRamp": [
+          "oklch(15% 0.17 126)",
+          "oklch(25% 0.17 126)",
+          "oklch(35% 0.17 126)",
+          "oklch(45% 0.17 126)",
+          "oklch(60% 0.17 126)",
+          "oklch(75% 0.17 126)",
+          "oklch(85% 0.17 126)",
+          "oklch(95% 0.17 126)"
+        ]
+      },
+      "signal-ink": {
+        "role": "neutral",
+        "displayName": "Signal Ink",
+        "canonical": "oklch(22% .04 159)",
+        "tonalRamp": [
+          "oklch(15% 0.04 159)",
+          "oklch(25% 0.04 159)",
+          "oklch(35% 0.04 159)",
+          "oklch(45% 0.04 159)",
+          "oklch(60% 0.04 159)",
+          "oklch(75% 0.04 159)",
+          "oklch(85% 0.04 159)",
+          "oklch(95% 0.04 159)"
+        ]
+      },
+      "field-amber": {
+        "role": "secondary",
+        "displayName": "Field Amber",
+        "canonical": "oklch(78% .13 61)",
+        "tonalRamp": [
+          "oklch(15% 0.13 61)",
+          "oklch(25% 0.13 61)",
+          "oklch(35% 0.13 61)",
+          "oklch(45% 0.13 61)",
+          "oklch(60% 0.13 61)",
+          "oklch(75% 0.13 61)",
+          "oklch(85% 0.13 61)",
+          "oklch(95% 0.13 61)"
+        ]
+      },
+      "world-grass": {
+        "role": "tertiary",
+        "displayName": "World Grass",
+        "canonical": "oklch(71% .07 139)",
+        "tonalRamp": [
+          "oklch(15% 0.07 139)",
+          "oklch(25% 0.07 139)",
+          "oklch(35% 0.07 139)",
+          "oklch(45% 0.07 139)",
+          "oklch(60% 0.07 139)",
+          "oklch(75% 0.07 139)",
+          "oklch(85% 0.07 139)",
+          "oklch(95% 0.07 139)"
+        ]
+      },
+      "agent-marker": {
+        "role": "tertiary",
+        "displayName": "Agent Marker",
+        "canonical": "oklch(74% .13 47)",
+        "tonalRamp": [
+          "oklch(15% 0.13 47)",
+          "oklch(25% 0.13 47)",
+          "oklch(35% 0.13 47)",
+          "oklch(45% 0.13 47)",
+          "oklch(60% 0.13 47)",
+          "oklch(75% 0.13 47)",
+          "oklch(85% 0.13 47)",
+          "oklch(95% 0.13 47)"
+        ]
+      },
+      "forage-marker": {
+        "role": "tertiary",
+        "displayName": "Forage Marker",
+        "canonical": "oklch(84% .13 93)",
+        "tonalRamp": [
+          "oklch(15% 0.13 93)",
+          "oklch(25% 0.13 93)",
+          "oklch(35% 0.13 93)",
+          "oklch(45% 0.13 93)",
+          "oklch(60% 0.13 93)",
+          "oklch(75% 0.13 93)",
+          "oklch(85% 0.13 93)",
+          "oklch(95% 0.13 93)"
+        ]
+      },
+      "timber-marker": {
+        "role": "tertiary",
+        "displayName": "Timber Marker",
+        "canonical": "oklch(63% .13 154)",
+        "tonalRamp": [
+          "oklch(15% 0.13 154)",
+          "oklch(25% 0.13 154)",
+          "oklch(35% 0.13 154)",
+          "oklch(45% 0.13 154)",
+          "oklch(60% 0.13 154)",
+          "oklch(75% 0.13 154)",
+          "oklch(85% 0.13 154)",
+          "oklch(95% 0.13 154)"
+        ]
+      },
+      "berry-marker": {
+        "role": "tertiary",
+        "displayName": "Berry Marker",
+        "canonical": "oklch(63% .18 21)",
+        "tonalRamp": [
+          "oklch(15% 0.18 21)",
+          "oklch(25% 0.18 21)",
+          "oklch(35% 0.18 21)",
+          "oklch(45% 0.18 21)",
+          "oklch(60% 0.18 21)",
+          "oklch(75% 0.18 21)",
+          "oklch(85% 0.18 21)",
+          "oklch(95% 0.18 21)"
+        ]
+      },
+      "mineral-marker": {
+        "role": "tertiary",
+        "displayName": "Mineral Marker",
+        "canonical": "oklch(73% .025 240)",
+        "tonalRamp": [
+          "oklch(15% 0.025 240)",
+          "oklch(25% 0.025 240)",
+          "oklch(35% 0.025 240)",
+          "oklch(45% 0.025 240)",
+          "oklch(60% 0.025 240)",
+          "oklch(75% 0.025 240)",
+          "oklch(85% 0.025 240)",
+          "oklch(95% 0.025 240)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Editorial Display",
+        "purpose": "Main page title that frames the living simulation."
+      },
+      "headline": {
+        "displayName": "Section Headline",
+        "purpose": "Large editorial heading for field notes."
+      },
+      "title": {
+        "displayName": "Panel Title",
+        "purpose": "World and observer surface headings."
+      },
+      "body": {
+        "displayName": "Interface Body",
+        "purpose": "Instructions, resident details, and readable interface copy."
+      },
+      "label": {
+        "displayName": "Instrument Mono",
+        "purpose": "Compact time, weather, and state readouts."
+      }
+    },
+    "shadows": [
+      {
+        "name": "controls-dialog",
+        "value": "0 28px 80px oklch(5% .01 160 / .55)",
+        "purpose": "Lifts the on-demand camera guide above its dark backdrop."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-state",
+        "value": "background-color .2s, color .2s, transform .2s",
+        "purpose": "Button hover and state changes."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition-duration .01ms; animation-duration .01ms",
+        "purpose": "Respects the reduced-motion preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1100px"
+      },
+      {
+        "name": "stacked-world",
+        "value": "850px"
+      },
+      {
+        "name": "phone",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Starts or resumes the simulation.",
+      "html": "<button class=\"ds-primary\">Start agents</button>",
+      "css": ".ds-primary { min-height: 44px; padding: 0 16px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: var(--accent-ink); font: 600 12px \"IBM Plex Sans\", sans-serif; transition: background-color .2s, color .2s, transform .2s; cursor: pointer; } .ds-primary:hover { background: oklch(92% .15 126); transform: translateY(-2px); } .ds-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Provides a secondary world or camera action.",
+      "html": "<button class=\"ds-secondary\">View life</button>",
+      "css": ".ds-secondary { min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--ink); font: 600 12px \"IBM Plex Sans\", sans-serif; transition: background-color .2s, color .2s, transform .2s; cursor: pointer; } .ds-secondary:hover { background: var(--panel-raised); transform: translateY(-2px); } .ds-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }"
+    },
+    {
+      "name": "Resident Filter",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Filters the resident list by river side.",
+      "html": "<button class=\"ds-filter ds-filter-active\">All</button>",
+      "css": ".ds-filter { min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 3px; background: transparent; color: var(--muted); font: 400 12px \"IBM Plex Sans\", sans-serif; cursor: pointer; } .ds-filter:hover { color: var(--ink); background: var(--panel-raised); } .ds-filter-active { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 600; } .ds-filter:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }"
+    },
+    {
+      "name": "Observer Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Groups world activity and the resident list.",
+      "html": "<section class=\"ds-panel\"><h2>Life, in numbers.</h2><p>Residents · Shelters · Discoveries</p></section>",
+      "css": ".ds-panel { padding: 21px 20px 18px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); } .ds-panel h2 { margin: 0 0 8px; font: 500 25px/1.2 \"Alegreya\", Georgia, serif; } .ds-panel p { margin: 0; color: var(--muted); font: 400 12px/1.5 \"IBM Plex Sans\", sans-serif; }"
+    },
+    {
+      "name": "Resident Row",
+      "kind": "custom",
+      "description": "Shows one resident, activity, and side while supporting follow selection.",
+      "html": "<button class=\"ds-resident\"><span class=\"ds-avatar\">R</span><span class=\"ds-person\"><strong>Ruth</strong><small>Sleeping</small></span><em>West</em></button>",
+      "css": ".ds-resident { display: flex; width: 100%; min-height: 50px; align-items: center; gap: 10px; padding: 8px 5px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; cursor: pointer; } .ds-resident:hover, .ds-resident:focus-visible { background: var(--panel-raised); } .ds-resident:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; } .ds-avatar { display: grid; width: 34px; height: 34px; flex: none; place-items: center; border: 1px solid hsl(150 50% 62%); border-radius: 50%; background: hsl(150 32% 34%); color: var(--ink); font: 600 16px \"Alegreya\", Georgia, serif; } .ds-person strong, .ds-person small { display: block; } .ds-person strong { font: 600 13px \"IBM Plex Sans\", sans-serif; } .ds-person small { margin-top: 2px; color: var(--muted); font: 400 12px \"IBM Plex Sans\", sans-serif; } .ds-resident em { margin-left: auto; padding: 2px 7px; border: 1px solid var(--line); border-radius: 20px; color: var(--muted); font: normal 12px \"IBM Plex Sans\", sans-serif; }"
+    },
+    {
+      "name": "World Status Label",
+      "kind": "custom",
+      "description": "Overlays the current running or paused state on the world canvas.",
+      "html": "<div class=\"ds-map-label\"><span></span><strong>PAUSED WORLD VIEW</strong></div>",
+      "css": ".ds-map-label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; background: oklch(20% .025 166 / .88); color: var(--ink); font: 500 12px \"IBM Plex Mono\", monospace; backdrop-filter: blur(8px); } .ds-map-label span { width: 7px; height: 7px; border-radius: 50%; background: var(--warm); box-shadow: 0 0 0 3px oklch(78% .13 61 / .14); } .ds-map-label.is-running span { background: var(--accent); box-shadow: 0 0 0 3px oklch(86% .17 126 / .14); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Field Observatory",
+    "overview": "Little World presents a living simulation as a place to observe, not a conventional admin dashboard. The dark mineral-green frame gives the bright, detailed 3D terrain the visual focus. Editorial serif headlines bring a human point of view; compact sans-serif and mono labels keep changing world facts easy to scan.\n\nThe desktop composition gives most of the first view to the world and keeps resident-following and activity beside it. On smaller screens, the world stays first and the observer surfaces move below it. Controls remain directly under the scene, and the guide opens on request.",
+    "keyCharacteristics": [
+      "A large live 3D world framed by a quiet dark shell.",
+      "One acid-lime signal color for primary actions and active states.",
+      "Editorial serif headlines paired with practical sans and mono detail.",
+      "Thin contour-like borders and restrained surface layering."
+    ],
+    "rules": [
+      {
+        "name": "The Signal Rule",
+        "body": "Reserve lime for actions and active states. Use amber to identify the paused state, while the map uses natural resource colors.",
+        "section": "colors"
+      },
+      {
+        "name": "The Instrument Rule",
+        "body": "Use mono for measured or changing values; use the serif face for editorial framing and the sans face for instructions and resident details.",
+        "section": "typography"
+      },
+      {
+        "name": "The Terrain-First Rule",
+        "body": "Use surface layering to organize the frame; let the world scene provide the prominent depth and detail.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do let the 3D world occupy the largest area in the first view.",
+      "Do use lime for primary actions, active filters, selected states, and focus indication.",
+      "Do keep world facts and time labels in the mono face, and keep the resident list directly accessible beside or below the scene.",
+      "Do preserve the touch-specific camera guidance and 44px minimum control heights."
+    ],
+    "donts": [
+      "Don't use lime as a general surface fill beyond active controls and signals.",
+      "Don't place the help dialog over the scene on initial load; it is opened from Controls or the question-mark affordance.",
+      "Don't replace the natural resource colors in the map key with the interface accent."
+    ]
+  }
+}
