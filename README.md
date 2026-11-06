@@ -12,12 +12,12 @@ From this folder:
 
 ```sh
 npm install
-WORLD_PASSWORD='choose-a-long-private-password' npm start
+WORLD_PASSWORD='choose-a-private-password-at-least-16-chars' HOST=0.0.0.0 npm start
 ```
 
-Open `http://SERVER_IP:3010`. Your browser will ask for username `world` and the password you set. Keep this service on a trusted network or behind HTTPS and your homelab's access control; HTTP Basic authentication sends credentials without encryption on plain HTTP. Set `PORT` for another port.
+Open the address served by your homelab. Visitors can watch without signing in. Use **Admin login** and the 16-character-or-longer `WORLD_PASSWORD` you set to manage the simulation. Admin sessions last eight hours and are cleared when the server restarts. Put the server behind HTTPS before exposing it to the internet. Set `TRUST_PROXY=1` only when your reverse proxy forwards the original `Host`, overwrites `X-Forwarded-For`, and sets `X-Forwarded-Proto`; this enables secure cookies and per-visitor login throttling. Set `PORT` for another port.
 
-Press **Start agents** to begin. The server runs two Codex decisions at a time, so each world day may take a while. Each round uses one model request for every living agent and consumes your account's allowance. Pause stops after the current round; Start over deletes the saved world. The world is saved to `data/world.json` after every round and loads on restart in a paused state. Do not copy your Codex credential files into this project.
+The admin panel contains the start, pause, and reset controls. The server runs two Codex decisions at a time, so each world day may take a while. Each round uses one model request for every living agent and consumes the allowance of the Codex account signed in on the homelab server. The world is saved to `data/world.json` after every round and loads on restart in a paused state. Do not copy your Codex credential files into this project.
 
 The app only lets agent outputs choose from ten predefined actions; they do not run shell commands in the world. The Codex CLI itself runs in read-only sandbox mode in a temporary directory. If Codex is unavailable or a decision fails, the world pauses and shows an error.
 

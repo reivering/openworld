@@ -88,7 +88,7 @@ components:
 
 Little World presents a living simulation as a place to observe, not a conventional admin dashboard. The dark mineral-green frame gives the bright, detailed 3D terrain the visual focus. Editorial serif headlines bring a human point of view; compact sans-serif and mono labels keep changing world facts easy to scan.
 
-The desktop composition gives most of the first view to the world and keeps resident-following and activity beside it. On smaller screens, the world stays first and the observer surfaces move below it. Controls remain directly under the scene, and the guide opens on request.
+The desktop composition gives most of the first view to the world and keeps resident-following and activity beside it. On smaller screens, the world stays first and the observer surfaces move below it. Camera controls remain directly under the scene; simulation controls appear only after the owner signs into the admin panel.
 
 **Key Characteristics:**
 - A large live 3D world framed by a quiet dark shell.
@@ -180,6 +180,9 @@ The canvas is the signature surface and occupies the largest area above the fold
 
 ### Controls Dialog
 The guide is on-demand, constrained to the viewport, and shown above a dark scrim. It groups instructions by computer or touch device and uses outlined keycaps for physical controls.
+
+### Admin Access
+The public world exposes an **Admin login** action beside camera controls. Its password dialog explains that the Codex CLI on the homelab powers agent decisions. After sign-in, a separate admin surface exposes start, pause, reset, and sign-out actions. The server verifies the password and issues a random, HTTP-only session cookie; the password itself is never stored in the cookie.
 
 ## Do's and Don'ts
 

@@ -332,16 +332,24 @@
       "description": "Overlays the current running or paused state on the world canvas.",
       "html": "<div class=\"ds-map-label\"><span></span><strong>PAUSED WORLD VIEW</strong></div>",
       "css": ".ds-map-label { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; background: oklch(20% .025 166 / .88); color: var(--ink); font: 500 12px \"IBM Plex Mono\", monospace; backdrop-filter: blur(8px); } .ds-map-label span { width: 7px; height: 7px; border-radius: 50%; background: var(--warm); box-shadow: 0 0 0 3px oklch(78% .13 61 / .14); } .ds-map-label.is-running span { background: var(--accent); box-shadow: 0 0 0 3px oklch(86% .17 126 / .14); }"
+    },
+    {
+      "name": "Admin Access",
+      "kind": "dialog",
+      "description": "Keeps simulation controls private to the homelab owner.",
+      "html": "<dialog><form><label for=\"admin-password\">Admin password</label><input id=\"admin-password\" type=\"password\" autocomplete=\"current-password\"><button>Sign in</button></form></dialog>",
+      "css": ".admin-dialog { width: min(460px, calc(100vw - 28px)); background: var(--panel); color: var(--ink); } .admin-dialog input { min-height: 46px; background: var(--bg); color: var(--ink); }"
     }
   ],
   "narrative": {
     "northStar": "The Field Observatory",
-    "overview": "Little World presents a living simulation as a place to observe, not a conventional admin dashboard. The dark mineral-green frame gives the bright, detailed 3D terrain the visual focus. Editorial serif headlines bring a human point of view; compact sans-serif and mono labels keep changing world facts easy to scan.\n\nThe desktop composition gives most of the first view to the world and keeps resident-following and activity beside it. On smaller screens, the world stays first and the observer surfaces move below it. Controls remain directly under the scene, and the guide opens on request.",
+    "overview": "Little World presents a living simulation as a place to observe, not a conventional admin dashboard. The dark mineral-green frame gives the bright, detailed 3D terrain the visual focus. Editorial serif headlines bring a human point of view; compact sans-serif and mono labels keep changing world facts easy to scan.\n\nThe desktop composition gives most of the first view to the world and keeps resident-following and activity beside it. On smaller screens, the world stays first and the observer surfaces move below it. Camera controls remain directly under the scene, while simulation controls require an admin session.",
     "keyCharacteristics": [
       "A large live 3D world framed by a quiet dark shell.",
       "One acid-lime signal color for primary actions and active states.",
       "Editorial serif headlines paired with practical sans and mono detail.",
-      "Thin contour-like borders and restrained surface layering."
+      "Thin contour-like borders and restrained surface layering.",
+      "Admin actions stay in a password-protected panel."
     ],
     "rules": [
       {

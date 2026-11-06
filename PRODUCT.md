@@ -20,14 +20,14 @@ Each resident makes a separate Codex-powered decision from its own observations 
 
 ## Operating Context
 
-The owner runs the Node server and signs in to Codex on the homelab machine. Visitors watch through the web interface; starting and pausing the simulation are available in the current product.
+The owner runs the Node server and signs in to Codex on the homelab machine. Visitors watch through the public web interface. The owner signs in to an admin panel with a private server password; the Codex CLI account powers agent decisions.
 
 ## Capabilities and Constraints
 
 - Interactive 3D world with two river banks, mountains, trees, water, animals, plants, minerals, structures, and humanoid residents.
 - Resident list with East and West filters and a follow camera; computer and touch navigation controls.
 - Live counts, discoveries, recent events, and an agent detail view.
-- Self-hosted, no build step, with existing Three.js dependency. Preserve the simulation and its API behavior during the frontend redesign.
+- Self-hosted, no build step, with existing Three.js dependency. Read-only world state is public; start, pause, and reset actions require an authenticated admin session.
 
 ## Evidence on Hand
 
