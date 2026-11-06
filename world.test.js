@@ -8,7 +8,7 @@ test('ten agents inhabit a world with trees, water and animals', () => {
   assert.equal(world.trees.length, 850);
   assert.equal(world.water.length, 20);
   assert.equal(world.animals.length, 150);
-  assert.equal(world.mountains.length, 6);
+  assert.equal(world.mountains.length, 4);
   assert.equal(world.river.length, 72);
   assert.equal(world.agents.filter(a => a.x < 0).length, 5);
   assert.equal(world.agents.filter(a => a.x > 0).length, 5);
@@ -33,17 +33,17 @@ test('existing worlds gain scattered mountains and a river without moving histor
   delete world.mountains;
   delete world.river;
   agent.x = -3; agent.z = 100;
-  world.trees[0].x = -120; world.trees[0].z = -120;
+  world.trees[0].x = -65; world.trees[0].z = 20;
   expandWorld(world);
   const moved = world.trees[0].x;
   expandWorld(world);
   assert.equal(world.agents[0], agent);
   assert.ok(agent.x < -12);
-  assert.ok(Math.abs(moved+120) > 30);
+  assert.ok(Math.abs(moved+65) > 30);
   assert.equal(world.trees[0].x, moved);
-  assert.equal(world.mountains.length, 6);
+  assert.equal(world.mountains.length, 4);
   assert.equal(world.river.length, 72);
-  assert.equal(world.terrainVersion, 3);
+  assert.equal(world.terrainVersion, 4);
 });
 test('agents cross the river at the bridge', () => {
   const world = createWorld(), agent = world.agents[0];

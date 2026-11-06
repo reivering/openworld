@@ -4,8 +4,8 @@ const between = (min, max) => min + Math.random() * (max - min);
 const near = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 const WORLD_SIZE = 350;
 const mountains = [
-  [-120,-115,45],[-65,20,42],[-130,115,46],
-  [120,-120,47],[65,45,49],[130,118,43]
+  [-65,20,42],[-130,115,46],
+  [65,45,49],[130,118,43]
 ].map(([x,z,height]) => ({x,z,height,radius:30}));
 const riverX = z => 3*Math.sin(z/22)+2*Math.sin(z/53);
 const river = Array.from({length:36},(_,i) => { const z=-170+i*10; return [-1,1].map(bank => ({x:riverX(z)+bank*13,z})); }).flat();
@@ -28,12 +28,12 @@ function expandWorld(world) {
     for (let i = 0; i < 135; i++) world.animals.push({ id: randomUUID(), ...outerPosition(), food: 3 });
     for (let i = 0; i < 18; i++) world.water.push({ ...outerPosition(12), radius: between(8, 12) });
   }
-  if (world.terrainVersion !== 3) {
+  if (world.terrainVersion !== 4) {
     world.mountains = mountains;
     world.river = river;
     for (const item of [...world.agents, ...world.trees, ...world.animals, ...world.structures]) clearTerrain(item);
     for (const lake of world.water) clearTerrain(lake, lake.radius);
-    world.terrainVersion = 3;
+    world.terrainVersion = 4;
   }
   return world;
 }

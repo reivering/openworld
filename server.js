@@ -14,7 +14,7 @@ const files = {
 };
 let world;
 let migrated = false;
-try { world = JSON.parse(fs.readFileSync(saveFile, 'utf8')); world.running = false; world.busy = false; world.error = null; migrated = !world.size || world.size < WORLD_SIZE || world.terrainVersion !== 3; expandWorld(world); } catch { world = createWorld(); }
+try { world = JSON.parse(fs.readFileSync(saveFile, 'utf8')); world.running = false; world.busy = false; world.error = null; migrated = !world.size || world.size < WORLD_SIZE || world.terrainVersion !== 4; expandWorld(world); } catch { world = createWorld(); }
 function save() { fs.mkdirSync(dataDir, {recursive:true}); const tmp = `${saveFile}.tmp`; fs.writeFileSync(tmp, JSON.stringify(world)); fs.renameSync(tmp, saveFile); }
 if (migrated) save();
 function state() { return { ...world, agents: world.agents.map(({memory, ...agent}) => ({...agent, lastThought: memory.at(-1) || ''})) }; }
