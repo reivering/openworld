@@ -8,7 +8,8 @@ test('ten agents inhabit a world with trees, water and animals', () => {
   assert.equal(world.trees.length, 850);
   assert.equal(world.water.length, 20);
   assert.equal(world.animals.length, 150);
-  assert.equal(world.mountains.length, 18);
+  assert.equal(world.mountains.length, 6);
+  assert.equal(world.river.length, 72);
   assert.equal(world.agents.filter(a => a.x < 0).length, 5);
   assert.equal(world.agents.filter(a => a.x > 0).length, 5);
   assert.ok(world.trees.some(t => Math.abs(t.x) > 55 || Math.abs(t.z) > 55));
@@ -26,21 +27,25 @@ test('saved small worlds expand once without losing their history', () => {
   assert.equal(world.animals.length, 150);
   assert.equal(world.water.length, 20);
 });
-test('existing worlds gain mountains without moving their history or resources twice', () => {
+test('existing worlds gain scattered mountains and a river without moving history twice', () => {
   const world = createWorld(), agent = world.agents[0];
+  delete world.terrainVersion;
   delete world.mountains;
+  delete world.river;
   agent.x = -3; agent.z = 100;
-  world.trees[0].x = 2; world.trees[0].z = 80;
+  world.trees[0].x = -120; world.trees[0].z = -120;
   expandWorld(world);
   const moved = world.trees[0].x;
   expandWorld(world);
   assert.equal(world.agents[0], agent);
-  assert.equal(agent.x, -24);
-  assert.equal(moved, 24);
+  assert.ok(agent.x < -12);
+  assert.ok(Math.abs(moved+120) > 30);
   assert.equal(world.trees[0].x, moved);
-  assert.equal(world.mountains.length, 18);
+  assert.equal(world.mountains.length, 6);
+  assert.equal(world.river.length, 72);
+  assert.equal(world.terrainVersion, 3);
 });
-test('agents cross the mountain range through the central pass', () => {
+test('agents cross the river at the bridge', () => {
   const world = createWorld(), agent = world.agents[0];
   agent.x = -45; agent.z = 90; agent.energy = 1000; agent.thirst = 1000;
   world.trees = [{id:'east-tree', x:45, z:90, wood:4}];
@@ -55,6 +60,23 @@ test('agents cross the mountain range through the central pass', () => {
   assert.ok(enteredPass);
   assert.ok(agent.x > 0);
   assert.equal(agent.wood, 2);
+});
+test('agents can drink from the river', () => {
+  const world=createWorld(), agent=world.agents[0];
+  agent.x=-16; agent.z=100; agent.thirst=20;
+  world.water=[];
+  applyDecision(world,agent,{action:'drink'});
+  assert.equal(agent.thirst,100);
+});
+test('agents travel around mountain slopes', () => {
+  const world=createWorld(), agent=world.agents[0], mountain=world.mountains[0];
+  agent.x=mountain.x-45; agent.z=mountain.z; agent.energy=1000; agent.thirst=1000;
+  world.trees=[{id:'far-tree',x:mountain.x+45,z:mountain.z,wood:4}];
+  for (let i=0; i<20 && !agent.wood; i++) {
+    applyDecision(world,agent,{action:'gather'});
+    assert.ok(Math.hypot(agent.x-mountain.x,agent.z-mountain.z) >= mountain.radius);
+  }
+  assert.equal(agent.wood,2);
 });
 test('agents can travel toward distant resources', () => {
   const world = createWorld(), agent = world.agents[0];

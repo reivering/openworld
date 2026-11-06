@@ -12,11 +12,22 @@ const controls = new OrbitControls(camera, canvas); controls.enableDamping = tru
 scene.add(new THREE.HemisphereLight('#f5f4df', '#7f9d7b', 2.2));
 const sun = new THREE.DirectionalLight('#fff0cc', 2.4); sun.position.set(-90,160,70); sun.castShadow = true; sun.shadow.mapSize.set(1024,1024); sun.shadow.camera.left = sun.shadow.camera.bottom = -180; sun.shadow.camera.right = sun.shadow.camera.top = 180; scene.add(sun);
 const material = color => new THREE.MeshStandardMaterial({color, roughness:1});
-const grass = [material('#83ad78'),material('#91ae7e')], rock = [material('#777d70'),material('#898a7a')], snow = material('#deded1'), pass = material('#b6a783'), trunk = material('#775b43'), leaves = [material('#467858'),material('#5a8d61'),material('#6b9666')], blue = new THREE.MeshStandardMaterial({color:'#67aac0',roughness:.28,transparent:true,opacity:.88}), animalMat = material('#c89a6e'), agentMats = [material('#d98560'),material('#e1b77e'),material('#a96954'),material('#dba079')], roof = material('#bd835d'), walls = material('#e3c697');
+const grass = [material('#83ad78'),material('#91ae7e')], rock = new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,side:THREE.DoubleSide}), pass = material('#b6a783'), trunk = material('#775b43'), leaves = [material('#467858'),material('#5a8d61'),material('#6b9666')], blue = new THREE.MeshStandardMaterial({color:'#67aac0',roughness:.28,transparent:true,opacity:.88}), animalMat = material('#c89a6e'), agentMats = [material('#d98560'),material('#e1b77e'),material('#a96954'),material('#dba079')], roof = material('#bd835d'), walls = material('#e3c697');
 for (const [i,x] of [-87.5,87.5].entries()) { const ground = new THREE.Mesh(new THREE.PlaneGeometry(175,350), grass[i]); ground.rotation.x = -Math.PI/2; ground.position.x=x; ground.receiveShadow = true; scene.add(ground); }
-const crossing = new THREE.Mesh(new THREE.PlaneGeometry(40,36), pass); crossing.rotation.x=-Math.PI/2; crossing.position.y=.008; crossing.receiveShadow=true; scene.add(crossing);
+const riverX = z => 3*Math.sin(z/22)+2*Math.sin(z/53);
+function riverStrip(width, y, mat) {
+  const geometry=new THREE.PlaneGeometry(width,350,1,140);
+  geometry.rotateX(-Math.PI/2);
+  const positions=geometry.getAttribute('position');
+  for (let i=0; i<positions.count; i++) positions.setX(i,positions.getX(i)+riverX(positions.getZ(i)));
+  geometry.computeVertexNormals();
+  const strip=new THREE.Mesh(geometry,mat); strip.position.y=y; strip.receiveShadow=true; scene.add(strip);
+}
+riverStrip(23,.012,pass);
+riverStrip(16,.025,blue);
+const bridge = new THREE.Mesh(new THREE.BoxGeometry(34,.8,10),material('#9d805c')); bridge.position.y=.55; bridge.castShadow=true; bridge.receiveShadow=true; scene.add(bridge);
 let dynamic = new THREE.Group(); scene.add(dynamic);
-const mountainGeo = new THREE.ConeGeometry(1,1,7), snowGeo = new THREE.ConeGeometry(1,1,7), treeGeo = new THREE.ConeGeometry(1.8,5,7), trunkGeo = new THREE.CylinderGeometry(.32,.4,2.4,6), animalGeo = new THREE.SphereGeometry(1,8,6), animalHeadGeo = new THREE.SphereGeometry(.5,8,6), animalLegGeo = new THREE.CylinderGeometry(.13,.15,.9,5), agentGeo = new THREE.CapsuleGeometry(.65,1.3,4,8), agentHeadGeo = new THREE.SphereGeometry(.55,10,8), waterGeo = new THREE.CircleGeometry(1,48), shoreGeo = new THREE.RingGeometry(1,1.14,48), shelterGeo = new THREE.BoxGeometry(4,2.6,4), roofGeo = new THREE.ConeGeometry(3.4,2.2,4), skin = material('#f0d2ae'), shore = material('#a9caa1');
+const treeGeo = new THREE.ConeGeometry(1.8,5,7), trunkGeo = new THREE.CylinderGeometry(.32,.4,2.4,6), animalGeo = new THREE.SphereGeometry(1,8,6), animalHeadGeo = new THREE.SphereGeometry(.5,8,6), animalLegGeo = new THREE.CylinderGeometry(.13,.15,.9,5), agentGeo = new THREE.CapsuleGeometry(.65,1.3,4,8), agentHeadGeo = new THREE.SphereGeometry(.55,10,8), waterGeo = new THREE.CircleGeometry(1,48), shoreGeo = new THREE.RingGeometry(1,1.14,48), shelterGeo = new THREE.BoxGeometry(4,2.6,4), roofGeo = new THREE.ConeGeometry(3.4,2.2,4), skin = material('#f0d2ae'), shore = material('#a9caa1');
 function mesh(geo, mat, x,y,z, group=dynamic) { const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.castShadow=true; m.receiveShadow=true; group.add(m); return m; }
 function instances(geo, mat, entries) {
   if (!entries.length) return;
@@ -26,13 +37,30 @@ function instances(geo, mat, entries) {
   batch.instanceMatrix.needsUpdate = true;
   dynamic.add(batch);
 }
-function setWorld(w) {
-  dynamic.traverse(object => { if (object.isInstancedMesh) object.dispose(); });
-  scene.remove(dynamic); dynamic = new THREE.Group(); scene.add(dynamic);
-  for (const [i,m] of (w.mountains||[]).entries()) {
-    const peak=mesh(mountainGeo,rock[i%2],m.x,m.height/2,m.z); peak.scale.set(m.radius,m.height,m.radius);
-    const cap=mesh(snowGeo,snow,m.x,m.height-2,m.z); cap.scale.set(m.radius*.23,4,m.radius*.23);
+function mountainTerrain(peak) {
+  const geometry = new THREE.PlaneGeometry(64,64,40,40);
+  geometry.rotateX(-Math.PI/2);
+  geometry.translate(peak.x,0,peak.z);
+  const positions=geometry.getAttribute('position'), colors=[];
+  const meadow=new THREE.Color('#71886b'), stone=new THREE.Color('#696e69'), bright=new THREE.Color('#a3a49a'), ice=new THREE.Color('#e8e8dd');
+  for (let i=0; i<positions.count; i++) {
+    const x=positions.getX(i), z=positions.getZ(i);
+    const dx=x-peak.x, dz=z-peak.z;
+    const footprint=Math.max(0,1-(dx*dx+dz*dz)/(peak.radius*peak.radius));
+    const rugged=1+.11*Math.sin(z*.37+x*.51)+.07*Math.sin(z*.91-x*.34);
+    const height=peak.height*Math.pow(footprint,1.35)*rugged;
+    positions.setY(i,height);
+    const color=height>34 ? bright.clone().lerp(ice,Math.min(1,(height-34)/10)) : height>8 ? stone.clone().lerp(bright,Math.min(1,(height-8)/32)) : meadow.clone().lerp(stone,height/8);
+    colors.push(color.r,color.g,color.b);
   }
+  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  geometry.computeVertexNormals();
+  const terrain=mesh(geometry,rock,0,0,0); terrain.userData.terrain=true;
+}
+function setWorld(w) {
+  dynamic.traverse(object => { if (object.isInstancedMesh) object.dispose(); if (object.userData.terrain) object.geometry.dispose(); });
+  scene.remove(dynamic); dynamic = new THREE.Group(); scene.add(dynamic);
+  for (const peak of w.mountains||[]) mountainTerrain(peak);
   for (const lake of w.water) { const water = mesh(waterGeo,blue,lake.x,.025,lake.z); water.scale.set(lake.radius,lake.radius,1); water.rotation.x=-Math.PI/2; water.castShadow=false; const edge=mesh(shoreGeo,shore,lake.x,.012,lake.z); edge.scale.set(lake.radius,lake.radius,1); edge.rotation.x=-Math.PI/2; edge.castShadow=false; }
   const trees = w.trees.filter(t => t.wood > 0);
   instances(trunkGeo, trunk, trees.map(t => [t.x,1.1,t.z]));

@@ -2,7 +2,7 @@
 
 A shared 3D survival world for ten independent Codex agents. They choose actions from their own observations and memories. The server validates each choice, changes the world, and records how many world days and real seconds each step took. Agents can gather wood, drink, hunt, build, research, rest, and share food. Research unlocks fire, tools, farming, villages, and metalworking. Survivors may have children who inherit their knowledge.
 
-The world covers 350 × 350 units, about ten times the area of the original 110 × 110 map. A mountain range divides it into two regions with a central pass; five agents begin on each side. Saved worlds expand and gain the range on the next server start without losing agents or discoveries.
+The world covers 350 × 350 units, about ten times the area of the original 110 × 110 map. A river divides it into two regions with a central bridge; mountains are scattered across both sides, and five agents begin on each bank. Agents can drink from the river. Saved worlds gain the new terrain on the next server start without losing agents or discoveries.
 
 ## Run on a homelab
 
