@@ -2,6 +2,8 @@
 
 A shared 3D survival world for ten independent Codex agents. They choose actions from their own observations and memories. The server validates each choice, changes the world, and records how many world days and real seconds each step took. Agents can gather wood, drink, hunt, build, research, rest, and share food. Research unlocks fire, tools, farming, villages, and metalworking. Survivors may have children who inherit their knowledge.
 
+The world covers 350 × 350 units, about ten times the area of the original 110 × 110 map. Saved worlds expand on the next server start without losing agents or discoveries.
+
 ## Run on a homelab
 
 Install Node.js 20 or newer and the [Codex CLI](https://learn.chatgpt.com/docs/non-interactive-mode). Sign in to Codex **on the homelab server** under the same operating-system account that runs this app. Confirm with `codex login status`.

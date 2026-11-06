@@ -2,7 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { timingSafeEqual } = require('node:crypto');
-const { createWorld, advance } = require('./simulation');
+const { createWorld, expandWorld, advance, WORLD_SIZE } = require('./simulation');
 const { decide } = require('./agent');
 const dataDir = path.join(__dirname, 'data');
 const saveFile = path.join(dataDir, 'world.json');
@@ -13,8 +13,10 @@ const files = {
   '/vendor/OrbitControls.js': ['node_modules/three/examples/jsm/controls/OrbitControls.js', 'text/javascript']
 };
 let world;
-try { world = JSON.parse(fs.readFileSync(saveFile, 'utf8')); world.running = false; world.busy = false; world.error = null; } catch { world = createWorld(); }
+let migrated = false;
+try { world = JSON.parse(fs.readFileSync(saveFile, 'utf8')); world.running = false; world.busy = false; world.error = null; migrated = !world.size || world.size < WORLD_SIZE; expandWorld(world); } catch { world = createWorld(); }
 function save() { fs.mkdirSync(dataDir, {recursive:true}); const tmp = `${saveFile}.tmp`; fs.writeFileSync(tmp, JSON.stringify(world)); fs.renameSync(tmp, saveFile); }
+if (migrated) save();
 function state() { return { ...world, agents: world.agents.map(({memory, ...agent}) => ({...agent, lastThought: memory.at(-1) || ''})) }; }
 function json(res, code, value) { res.writeHead(code, {'Content-Type':'application/json; charset=utf-8', 'Cache-Control':'no-store'}); res.end(JSON.stringify(value)); }
 function auth(req, res) {
