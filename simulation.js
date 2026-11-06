@@ -1,5 +1,5 @@
 const { randomUUID } = require('node:crypto');
-const names = ['Moss', 'Clover', 'Sol', 'Pip', 'Wren', 'Ember', 'Fern', 'Ash', 'River', 'Juniper'];
+const names = ['Moss', 'Clover', 'Sol', 'Pip', 'Wren', 'Ember', 'Fern', 'Ash', 'Rays', 'Juniper'];
 const between = (min, max) => min + Math.random() * (max - min);
 const near = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 const WORLD_SIZE = 350;
