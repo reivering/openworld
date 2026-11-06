@@ -13,7 +13,7 @@ npm install
 WORLD_PASSWORD='choose-a-long-private-password' npm start
 ```
 
-Open `http://SERVER_IP:3000`. Your browser will ask for username `world` and the password you set. Keep this service on a trusted network or behind HTTPS and your homelab's access control; HTTP Basic authentication sends credentials without encryption on plain HTTP. Set `PORT` for another port.
+Open `http://SERVER_IP:3010`. Your browser will ask for username `world` and the password you set. Keep this service on a trusted network or behind HTTPS and your homelab's access control; HTTP Basic authentication sends credentials without encryption on plain HTTP. Set `PORT` for another port.
 
 Press **Start agents** to begin. The server runs two Codex decisions at a time, so each world day may take a while. Each round uses one model request for every living agent and consumes your account's allowance. Pause stops after the current round; Start over deletes the saved world. The world is saved to `data/world.json` after every round and loads on restart in a paused state. Do not copy your Codex credential files into this project.
 

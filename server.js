@@ -58,5 +58,5 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type':`${file[1]}; charset=utf-8`, 'X-Content-Type-Options':'nosniff'}); res.end(data);
   });
 });
-if (require.main === module) { const port = Number(process.env.PORT || 3000); const host = process.env.WORLD_PASSWORD ? '0.0.0.0' : '127.0.0.1'; server.listen(port, host, () => console.log(`Little World listening on ${host}:${port}`)); }
+if (require.main === module) { const port = Number(process.env.PORT || 3010); const host = process.env.WORLD_PASSWORD ? '0.0.0.0' : '127.0.0.1'; server.listen(port, host, () => console.log(`Little World listening on ${host}:${port}`)); }
 module.exports = { server };
