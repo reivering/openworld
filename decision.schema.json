@@ -1,1 +1,1 @@
-{"type":"object","properties":{"action":{"type":"string","enum":["gather","drink","hunt","build","research","rest","share"]},"reason":{"type":"string"}},"required":["action","reason"],"additionalProperties":false}
+{"type":"object","properties":{"action":{"type":"string","enum":["gather","forage","mine","drink","hunt","build","craft","research","rest","share"]},"resource":{"type":"string","enum":["stone","flint","clay","sand","salt","limestone","copper","tin","iron","coal"]},"reason":{"type":"string"}},"required":["action","reason"],"additionalProperties":false}

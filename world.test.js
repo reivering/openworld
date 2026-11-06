@@ -10,8 +10,16 @@ test('ten agents inhabit a world with trees, water and animals', () => {
   assert.equal(world.animals.length, 150);
   assert.equal(world.mountains.length, 4);
   assert.equal(world.river.length, 72);
+  assert.equal(world.plants.length, 120);
+  assert.equal(world.deposits.length, 100);
+  for (const resource of [...world.plants,...world.deposits]) assert.ok(world.water.every(lake => Math.hypot(resource.x-lake.x,resource.z-lake.z)>lake.radius));
+  assert.equal(world.agents[0].health, 100);
   assert.equal(world.agents.filter(a => a.x < 0).length, 5);
   assert.equal(world.agents.filter(a => a.x > 0).length, 5);
+  for (const agent of world.agents) {
+    assert.ok(world.water.every(lake => Math.hypot(agent.x-lake.x,agent.z-lake.z)>lake.radius));
+    assert.ok(world.mountains.every(m => Math.hypot(agent.x-m.x,agent.z-m.z)>m.radius));
+  }
   assert.ok(world.trees.some(t => Math.abs(t.x) > 55 || Math.abs(t.z) > 55));
   assert.equal(observation(world, world.agents[0]).self.name, world.agents[0].name);
 });
@@ -45,6 +53,20 @@ test('existing worlds gain scattered mountains and a river without moving histor
   assert.equal(world.river.length, 72);
   assert.equal(world.terrainVersion, 4);
 });
+test('saved worlds gain survival needs and resources once', () => {
+  const world=createWorld(), agent=world.agents[0];
+  delete world.ecologyVersion; delete world.plants; delete world.deposits; delete world.harvested;
+  delete agent.hunger; delete agent.warmth; delete agent.health; delete agent.minerals;
+  world.knowledge.push('fire');
+  expandWorld(world);
+  const plants=world.plants, deposits=world.deposits;
+  expandWorld(world);
+  assert.equal(world.agents[0],agent);
+  assert.deepEqual(world.knowledge,['fire']);
+  assert.equal(agent.health,100);
+  assert.equal(world.plants,plants);
+  assert.equal(world.deposits,deposits);
+});
 test('agents cross the river at the bridge', () => {
   const world = createWorld(), agent = world.agents[0];
   agent.x = -45; agent.z = 90; agent.energy = 1000; agent.thirst = 1000;
@@ -67,6 +89,40 @@ test('agents can drink from the river', () => {
   world.water=[];
   applyDecision(world,agent,{action:'drink'});
   assert.equal(agent.thirst,100);
+});
+test('foraging and mining produce food and minerals', () => {
+  const world=createWorld(), agent=world.agents[0];
+  const plant=world.plants[0], deposit=world.deposits.find(d => d.type==='stone');
+  agent.x=plant.x; agent.z=plant.z;
+  applyDecision(world,agent,{action:'forage'});
+  assert.equal(agent.food,3);
+  assert.equal(plant.berries,2);
+  agent.x=deposit.x; agent.z=deposit.z;
+  applyDecision(world,agent,{action:'mine',resource:'stone'});
+  assert.equal(agent.minerals.stone,1);
+  assert.equal(world.harvested.stone,1);
+  world.knowledge.push('metalworking');
+  applyDecision(world,agent,{action:'mine',resource:'stone'});
+  assert.equal(agent.minerals.stone,3);
+  assert.equal(world.harvested.stone,3);
+});
+test('later discoveries require harvested materials', () => {
+  const world=createWorld();
+  world.knowledge.push('fire'); world.research=100;
+  const choices=Object.fromEntries(world.agents.map(a => [a.id,{action:'rest'}]));
+  advance(world,choices);
+  assert.ok(!world.knowledge.includes('stone tools'));
+  world.harvested.stone=2; world.harvested.flint=1;
+  advance(world,choices);
+  assert.ok(world.knowledge.includes('stone tools'));
+});
+test('a firepit consumes materials and restores warmth nearby', () => {
+  const world=createWorld(), agent=world.agents[0];
+  world.knowledge.push('fire'); agent.wood=2; agent.stone=2; agent.minerals.stone=2; agent.warmth=20;
+  applyDecision(world,agent,{action:'craft'});
+  assert.equal(world.structures[0].type,'firepit');
+  assert.equal(agent.minerals.stone,0);
+  assert.ok(agent.warmth>20);
 });
 test('agents travel around mountain slopes', () => {
   const world=createWorld(), agent=world.agents[0], mountain=world.mountains[0];
@@ -103,7 +159,8 @@ test('agent choices change shared world state and discoveries unlock in order', 
 test('a world can go extinct', () => {
   const world = createWorld();
   for (const agent of world.agents) agent.thirst = 0;
-  advance(world, Object.fromEntries(world.agents.map(a => [a.id, {action:'rest'}])));
+  world.running=true;
+  for (let i=0;i<6 && world.agents.length;i++) advance(world, Object.fromEntries(world.agents.map(a => [a.id, {action:'rest'}])));
   assert.equal(world.agents.length, 0);
   assert.equal(world.running, false);
 });
